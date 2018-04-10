@@ -1,0 +1,22 @@
+{
+  "name": "cl_lib",
+  "version": "1.0.0",
+  "description": "Testimonial Lib in Creative Life",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lkwjohn/cl_lib.git"
+  },
+  "keywords": [
+    "cl"
+  ],
+  "author": "John Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lkwjohn/cl_lib/issues"
+  },
+  "homepage": "https://github.com/lkwjohn/cl_lib#readme"
+}
