@@ -33,11 +33,29 @@ router.get('/get_tags', async function (req, res, next) {
 *
 **/
 router.post('/get_testmonial_by_tag', async function (req, res, next) {
-	var tag_id = req.body.id;
+	var tag_id = req.body.id
+	if(tag_id == ''){
+		return res.json({'success': false, 'data': 'invalid parameters'})
+	}
+
 	var testimonial = await testimonial_m.get_testmonial_by_tag(tag_id)
 
 	return res.json({'success': true, 'data': testimonial['rows']})
 })
 
-router.use(express.static('routes'));
+
+router.post('/search', async function (req, res, next) {
+	var search_text = req.body.search_text
+	console.log( search_text)
+	
+	if(search_text == ''){
+		return res.json({'success': false, 'data': 'invalid parameters'})
+	}
+
+	var testimonial = await testimonial_m.get_testmonial_by_text(search_text.toLowerCase())
+	console.log(testimonial['rows'])
+	return res.json({'success': true, 'data': testimonial['rows']})
+})
+
+router.use(express.static('routes'))
 module.exports = router

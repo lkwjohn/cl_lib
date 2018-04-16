@@ -57,3 +57,13 @@ exports.get_testmonial_tag = function(){
 		return e.toString();
 	}
 }
+
+exports.get_testmonial_by_text = function(text){
+	try{
+		return db.query("SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE t.id IN (SELECT t.id FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id) AND LOWER(t.title) LIKE $1 GROUP BY t.id;", ['%' + text + '%'])
+	}
+	catch(e){
+		console.log(e.toString());
+		return e.toString();
+	}
+}
