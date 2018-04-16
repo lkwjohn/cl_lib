@@ -1,6 +1,7 @@
 'use strict';
 
-const db 		= require('../database_config')
+const db 			= require('../database_config')
+const itemPerPage 	= 100
 
 /**
 *
@@ -10,9 +11,33 @@ const db 		= require('../database_config')
 *
 * @returns {(String|pool.Result)} 
 **/
-exports.get_testmonial = function(){
+exports.get_testmonial = function(pagination){
 	try{
-		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id;')
+		if(pagination < 0){
+		 	pagination = 0
+		}
+
+		var offset = pagination * itemPerPage
+		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id LIMIT $1 OFFSET $2;', [itemPerPage, offset])
+
+	}
+	catch(e){
+		console.log(e.toString());
+		return e.toString();
+	}
+}
+
+/**
+*
+* Function: Count the number of testimonial
+*
+* @param
+*
+* @returns {(String|pool.Result)} 
+**/
+exports.get_total_number_testimonial = function(){
+	try{
+		return db.query('SELECT COUNT(*) FROM testimonial;')
 	}
 	catch(e){
 		console.log(e.toString());
@@ -50,7 +75,7 @@ exports.get_testmonial_by_tag = function(tag_id){
 exports.get_testmonial_tag = function(){
 	try{
 		return db.query(
-			'SELECT * FROM tag;')
+			'SELECT * FROM tag ORDER BY tag ASC;')
 	}
 	catch(e){
 		console.log(e.toString());
