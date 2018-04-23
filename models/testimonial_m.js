@@ -16,7 +16,7 @@ exports.get_testmonial = function(pagination){
 		if(pagination < 0){
 		 	pagination = 0
 		}
-
+		console.log(db);
 		var offset = pagination * itemPerPage
 		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id LIMIT $1 OFFSET $2;', [itemPerPage, offset])
 

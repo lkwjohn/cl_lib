@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs')
 // const request = require('request')
 
@@ -5,8 +7,17 @@ const expect = require('chai').expect
 
 const testimonial_m = require('../models/testimonial_m')
 
+const db = require('../database_config')
+
 describe('The testimonial model', function () {
-  it('retrieving all testimonial content', function * () {
+  it('retrieving all testimonial content', async function () {
+
+    db.change_database('development')
+
+    // var callback = this.sandbox.spy(-1, get_testmonial);
+    var result = await testimonial_m.get_testmonial(1);
+    console.log(result.rows)
+
     // var all_testimonial = this.sandbox.spies(0, 'get_testmonial')
 
     // const url = 'google.com'
