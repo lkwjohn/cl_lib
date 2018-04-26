@@ -32,8 +32,10 @@ app.use('*', function(req, res){
   res.status(404).send('Invalid url')
 });
 
-app.listen(1337, function(){
-	console.log('hello')
+var port = process.argv[2]
+port =  ( port == undefined) ? 1337 : 1338; //1337 for production, 1338 for testing
+app.listen(port, function(){
+ console.log('Server Started on port ' + port)
 });
 
 module.exports = app;

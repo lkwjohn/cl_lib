@@ -32,11 +32,12 @@ var change_database = function(environment){
 }
 
 var get_config = function(){
-	return 0
+	return this.pool
 }
 
 module.exports = {
   query: (text, params) => pool.query(text, params),
   query_text_only: (text,) => pool.query(text),
-  change_database: (text) =>change_database(text)
+  change_database: (text) =>change_database(text),
+  get_config: () => pool
 }

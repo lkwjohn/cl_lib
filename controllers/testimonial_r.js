@@ -16,8 +16,8 @@ router.post('/get_all', async function (req, res, next) {
 	testimonial = testimonial['rows']
 
 	var size = await testimonial_m.get_total_number_testimonial()
-	console.log(size['rows'])
-	size = size['rows'][0]
+	// console.log(size['rows'])
+	size = size['rows'][0].count
 
 	return res.json({'success': true, 'data': testimonial, 'size':size})
 })
@@ -39,6 +39,9 @@ router.get('/get_tags', async function (req, res, next) {
 *
 **/
 router.post('/get_testmonial_by_tag', async function (req, res, next) {
+	if(req.body.id === undefined){
+		return res.json({'success': false, 'data': 'Undefined parameter: id'})
+	}
 	var tag_id = req.body.id
 	if(tag_id == ''){
 		return res.json({'success': false, 'data': 'invalid parameters'})
@@ -55,15 +58,19 @@ router.post('/get_testmonial_by_tag', async function (req, res, next) {
 *
 **/
 router.post('/search', async function (req, res, next) {
+	if(req.body.search_text === undefined){
+		return res.json({'success': false, 'data': 'Undefined parameter: search_text'})
+	}
+	
 	var search_text = req.body.search_text
-	console.log( search_text)
+	// console.log( search_text)
 	
 	if(search_text == ''){
 		return res.json({'success': false, 'data': 'invalid parameters'})
 	}
 
 	var testimonial = await testimonial_m.get_testmonial_by_text(search_text.toLowerCase())
-	console.log(testimonial['rows'])
+	// console.log(testimonial['rows'])
 	return res.json({'success': true, 'data': testimonial['rows']})
 })
 

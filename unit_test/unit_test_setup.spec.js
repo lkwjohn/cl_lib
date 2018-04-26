@@ -1,11 +1,18 @@
 const sinon = require('sinon')
 const chai = require('chai')
+const promise = require('promise')
 const db = require('../database_config')
+const exec = require('child_process').exec
+const app 		= require('../app.js');
+const expect    = require('chai').expect
+const request = require('chai').request
+chai.use(require('chai-http'));
 
-before(function(){
+before(async function(){
 	//setup
+	console.log('########## Setting Up ###########')
 	db.change_database('development')
-	db.query("INSERT INTO testimonial (title, cl_month, cl_year, page, description) VALUES('title1', 4, 2017, 10, 'testimonial about ymd')")
+
 })
 
 beforeEach(function () {
@@ -17,8 +24,13 @@ afterEach(function () {
 })
 
 after(function(){
-	//tear down
-	// db.query("DELETE FROM testimonial")
-	db.query("DELETE FROM tag")
-	db.query("DELETE FROM testimonial_tag_mapping")
+	console.log('##########  Tearing Down ###########')
+	db.change_database('production')
+	// process.exit(0)
 })
+
+
+
+exports.app = app
+exports.expect = expect
+exports.chai = chai
