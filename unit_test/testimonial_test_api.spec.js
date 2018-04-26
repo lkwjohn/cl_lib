@@ -21,7 +21,7 @@ describe('The testimonial APIs', function () {
 		    expect(res.body.data).to.be.a('array');
 		    expect(res.body.size).to.be.a('string');
 		    expect(res.body.data).to.have.length(10)
-		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags'))
+		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags', 'description'))
 		});
   })
 
@@ -40,7 +40,7 @@ describe('The testimonial APIs', function () {
 		    expect(res.body.data).to.be.a('array');
 		    expect(res.body.size).to.be.a('string');
 		    expect(res.body.data).to.have.length(10)
-		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags'))
+		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags', 'description'))
 		});
   })
 
@@ -59,7 +59,7 @@ describe('The testimonial APIs', function () {
 		    expect(res.body.data).to.be.a('array');
 		    expect(res.body.size).to.be.a('string');
 		    expect(res.body.data).to.have.length(0)
-		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags'))
+		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags', 'description'))
 		});
   })
 
@@ -93,7 +93,7 @@ describe('The testimonial APIs', function () {
 		    expect(res.body.success).to.equal(true);
 		    expect(res.body.data).to.be.a('array');
 		    expect(res.body.data).to.have.length(3)
-		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags'))
+		    res.body.data.every(i => expect(i).to.have.all.keys('id','title', 'cl_month', 'cl_year', 'page', 'tags', 'description'))
 		});
   })
 

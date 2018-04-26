@@ -13,7 +13,7 @@ describe('The testimonial model', function () {
   it('Retrieving all testimonial content', async function () {
         var result = await testimonial_m.get_testmonial(-1)
         expect(result.rows).to.have.lengthOf(10)
-        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags'))
+        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags', 'description'))
   })
 
   it('Get size of testimonial in database', async function () {
@@ -24,7 +24,7 @@ describe('The testimonial model', function () {
   it('Get Testimomial using a valid tag id',async function () {
         var result = await testimonial_m.get_testmonial_by_tag(37)
         expect(result.rows).to.have.lengthOf(3)
-        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags'))
+        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags', 'description'))
 
   })
 
@@ -48,14 +48,14 @@ describe('The testimonial model', function () {
   it('Get testimonial from a valid search string using CAPS',async function () {
         var result = await testimonial_m.get_testmonial_by_text('MARCH')
         expect(result.rows).to.have.lengthOf(2)
-        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags'))
+        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags', 'description'))
 
   })
 
   it('Get testimonial from a valid search string using mix CAPS',async function () {
         var result = await testimonial_m.get_testmonial_by_text('MaRCh')
         expect(result.rows).to.have.lengthOf(2)
-        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags'))
+        result.rows.every(i => expect(i).to.have.all.keys('id', 'title', 'cl_month' ,'cl_year', 'page', 'tags', 'description'))
   })
 
     it('Get testimonial with no search string',async function () {
