@@ -19,7 +19,7 @@ exports.get_testmonial = function(pagination){
 		}
 		
 		var offset = pagination * itemPerPage
-		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.division, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id LIMIT $1 OFFSET $2;', [itemPerPage, offset])
+		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.division, t.from, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id LIMIT $1 OFFSET $2;', [itemPerPage, offset])
 
 	}
 	catch(e){
@@ -58,7 +58,7 @@ exports.get_testmonial_by_tag = function(tag_id){
 		if(tag_id === undefined || tag_id == '' || tag_id == null){
 			throw new Error('tag_id not defined')
 		}
-		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.division, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE t.id IN (SELECT t.id FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE g.id = $1 GROUP BY t.id) GROUP BY t.id;', [tag_id])
+		return db.query('SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.from, t.division, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE t.id IN (SELECT t.id FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE g.id = $1 GROUP BY t.id) GROUP BY t.id;', [tag_id])
 	}
 	catch(e){
 		return e.toString()
@@ -100,7 +100,7 @@ exports.get_testmonial_by_text = function(text){
 			throw new Error('text not defined')
 		}
 		text = text.toLowerCase();
-		return db.query("SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.division, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE t.id IN (SELECT t.id FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id) AND (LOWER(t.title) LIKE $1 OR LOWER(t.description) LIKE $1 OR LOWER(t.division) LIKE $1 OR LOWER(t.from) LIKE $1) GROUP BY t.id;", ['%' + text + '%'])
+		return db.query("SELECT t.id, t.title, t.cl_year, t.cl_month, t.page, array_agg(g.tag) as tags, t.division, t.from, t.description FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id WHERE t.id IN (SELECT t.id FROM testimonial t LEFT JOIN testimonial_tag_mapping m ON t.id = m.testimonial_id JOIN tag g ON m.tag_id = g.id GROUP BY t.id) AND (LOWER(t.title) LIKE $1 OR LOWER(t.description) LIKE $1 OR LOWER(t.division) LIKE $1 OR LOWER(t.from) LIKE $1) GROUP BY t.id;", ['%' + text + '%'])
 	}
 	catch(e){
 		return e.toString()
